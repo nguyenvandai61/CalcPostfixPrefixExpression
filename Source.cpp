@@ -4,7 +4,6 @@
 #include <string.h>
 using namespace std;
 
-
 #define MAX 200
 struct Stack
 {
@@ -76,7 +75,7 @@ void InfixtoPostfix(char infix[], char postfix[])
 		token = infix[i]; // Luu ky tu
 		if (isalnum(token)) { // Truong hop la so hoac chu
 			postfix[j++] = token;
-			if (!isdigit(infix[i+1])) {
+			if (!isdigit(infix[i+1]) && isdigit(infix[i])) {
 				postfix[j++] = ' ';
 			}
 		}
@@ -125,19 +124,27 @@ float Evaluate(char *Postfix)
 			p++;
 		}
 		
-		// Xet truong hop so
-		if (isdigit(*p))
-		{
-			int num = 0;
-			while(isdigit(*p)) {
-				num*= 10;
-				num+= *p - 48;
-				p++;
+		if (isalnum(*p)) {
+			// Xet truong hop so
+			if (isdigit(*p))
+			{
+				int num = 0;
+				while(isdigit(*p)) {
+					num*= 10;
+					num+= *p - 48;
+					p++;
+				}
+				p--;		
+				cout << num << endl;
+				Push(&S, num);
 			}
-			p--;		
-			cout << num << endl;
-			Push(&S, num);
+			// Xet la chu
+			else
+			{
+				Push(&S, *p);
+			}
 		}
+		// xet la toan tu
 		else
 		{
 			op1 = Pop(&S);
@@ -204,12 +211,11 @@ void InfixtoPrefix(char Infix[], char Prefix[]) {
 
 
 
-
 int main()
 {
 	char A[MAX], B[MAX];
 	printf("Infix : ");
-	const char* word = "(2+3)*5";
+	const char* word = "(A+B)*C";
 	printf("%s\n", word);
 	// Chuyen const char ve char array
     strncpy(A,word, MAX);
@@ -218,7 +224,8 @@ int main()
 	InfixtoPrefix(A, B);
 	printf("Chuoi Prefix: %s\n", B);
 	
-	//printf("Prefix: %s\n", B);
+//	InfixtoPostfix(A, B);
+//	printf("Postfix: %s\n", B);
 //	printf("Equals is %f\n", Evaluate(&B[0]));
 	return 0;
 }
