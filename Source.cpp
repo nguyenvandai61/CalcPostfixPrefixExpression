@@ -80,6 +80,7 @@ void InfixtoPostfix(char infix[], char postfix[])
 			}
 		}
 		else
+			// Truong hop dau ngoac
 			if (token == '(')
 				Push(&S, '(');
 			else
@@ -90,7 +91,7 @@ void InfixtoPostfix(char infix[], char postfix[])
 				}
 				else // Truong hop phep tinh
 				{
-					while (!isEmpty(&S) && Precedence(token) <= Precedence(top(&S)))
+					while (!isEmpty(&S) && Precedence(token) < Precedence(top(&S)))
 					{
 						x = Pop(&S);
 						postfix[j++] = x;
@@ -176,6 +177,78 @@ float Evaluate(char *Postfix)
 	return result;
 }
 
+float Evaluate2(char *Prefix)
+{
+	struct Stack S;
+	char *p;
+	float op1, op2, result;
+	int prefixLength = strlen(Prefix);
+	S.TOP = -1; 
+	p = &Prefix[prefixLength-1];
+	
+	while (p >= &Prefix[0])
+	{
+		// Xet truong hop dau " "
+		while (*p == ' ' || *p == '\t')
+		{
+			p--;
+		}
+		
+		if (isalnum(*p)) {
+			// Xet truong hop so
+			if (isdigit(*p))
+			{
+				int num = *p - 48;
+//				while(isdigit(*p)) {
+//					num*= 10;
+//					num+= *p - 48;
+//					p--;
+//				}
+//				p++;		
+				cout << num << endl;
+				Push(&S, num);
+			}
+			// Xet la chu
+			else
+			{
+				Push(&S, *p);
+			}
+		}
+		// xet la toan tu
+		else
+		{
+			op1 = Pop(&S);
+			op2 = Pop(&S);
+			
+			switch (*p)
+			{
+			case '+':
+				result = op1 + op2;
+				break;
+			case '-':
+				result = op1 - op2;
+				break;
+			case '/':
+				result = op1 / op2;
+				break;
+			case '*':
+				result = op1 * op2;
+				break;
+			default:
+				printf("\nInvalid Operator");
+				return 0;
+			}
+			Push(&S, result);
+		}
+		p--;
+	}
+	result = Pop(&S);
+	return result;
+}
+
+
+
+
 void InfixtoPrefix(char Infix[], char Prefix[]) {
 	int infixLength = strlen(Infix);
 	// Dao chuoi
@@ -193,10 +266,9 @@ void InfixtoPrefix(char Infix[], char Prefix[]) {
 			Infix[i] = ')'; 
 		else if (Infix[i] == ')')
 				Infix[i] = '(';
-	
+	cout << "infix reverse: " << Infix << endl;
 	// Chuyen sang hau to
 	InfixtoPostfix(Infix, Prefix);
-	
 	printf("%s\n", Prefix);
 	
 	// Dao nguoc lai
@@ -213,9 +285,16 @@ void InfixtoPrefix(char Infix[], char Prefix[]) {
 
 int main()
 {
-	char A[MAX], B[MAX];
+	char A[MAX], B[MAX], C[MAX], D[MAX];
 	printf("Infix : ");
-	const char* word = "(A+B)*C";
+	const char* word = "2+6*9-7+5"; //x
+//	const char* word = "4+5*3-2";
+//	const char* word = "2-3*5+4"; // x
+//	const char* word = "(2+3)*(5+4)";
+//	const char* word = "5*7-4*2*3";
+//	const char* word = "(4+3)*2-5";
+//	const char* word = "5+3*2-4+5";
+
 	printf("%s\n", word);
 	// Chuyen const char ve char array
     strncpy(A,word, MAX);
@@ -223,9 +302,12 @@ int main()
     
 	InfixtoPrefix(A, B);
 	printf("Chuoi Prefix: %s\n", B);
+	printf("Equals is %f\n", Evaluate2(&B[0]));
 	
-//	InfixtoPostfix(A, B);
-//	printf("Postfix: %s\n", B);
-//	printf("Equals is %f\n", Evaluate(&B[0]));
+	strncpy(C,word, MAX);
+	InfixtoPostfix(C, D);
+	printf("Postfix: %s\n", D);
+	printf("Equals is %f\n", Evaluate(&D[0]));
+	
 	return 0;
 }
