@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 #define MAX_STACK 100
 #define MAX 100
 //////////////////////////////
@@ -133,7 +134,6 @@ void infix2Prefix(char infix[], char prefix[]) {
 				infix[i] = '(';
 	// Chuyen sang hau to
 	infix2Postfix(infix, prefix, true);
-	printf("%s\n", prefix);
 	
 	// Dao nguoc lai
 	int prefixLength = strlen(prefix);
@@ -231,13 +231,15 @@ float evaluatePrefix(char *prefix)
 			// Xet truong hop so
 			if (isdigit(*p))
 			{
-				int num = *p - 48;
-//				while(isdigit(*p)) {
-//					num*= 10;
-//					num+= *p - 48;
-//					p--;
-//				}
-//				p++;		
+				int i = 0;
+				int product;
+				int num = 0;
+				while(isdigit(*p)) {
+					product = pow(10, i++);
+					num+= product*(*p - 48);
+					p--;
+				}
+				p++;		
 				push(&s, num);
 			}
 			// Xet la chu
@@ -293,12 +295,12 @@ int main() {
 //	const char* word = "4+3*2-5";
 //	const char* word = "5+3*2-4+5"; 
 
-	const char* word = "7-2*3+5*8-4/2";
+//	const char* word = "A+B*C-D+E";
+	const char* word = "23+3*6-19*2+6*2";
 	printf("%s\n", word);
 	// Chuyen const char ve char array
     strncpy(A,word, MAX);
-//    
-//    
+
 	infix2Prefix(A, B);
 	printf("Chuoi Prefix: %s\n", B);
 	printf("Equals is %f\n", evaluatePrefix(&B[0]));
