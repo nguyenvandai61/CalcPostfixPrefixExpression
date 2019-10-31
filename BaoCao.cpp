@@ -8,7 +8,7 @@
 // Setup stack
 
 struct Stack{
-	float data[MAX_STACK];
+	double data[MAX_STACK];
 	int top;
 };
 
@@ -20,11 +20,11 @@ int isEmpty(Stack *s) {
 	return (s->top == -1)?1:0;
 }
 
-int topValue(Stack *s) {
+double topValue(Stack *s) {
 	return s->data[s->top];
 }
 
-void push(Stack *s, int data) {
+void push(Stack *s, double data) {
 	if (s->top == MAX_STACK - 1) {
 		printf("Stack is full");
 		return;
@@ -34,8 +34,8 @@ void push(Stack *s, int data) {
 	s->data[s->top] = data; 
 }
 
-int pop(Stack *s) {
-	int ret = -1;
+double pop(Stack *s) {
+	double ret = -1;
 	if (s->top == -1) {
 		printf("Stack is empty");
 	} else {
@@ -49,7 +49,7 @@ int pop(Stack *s) {
 ///////////////
 // Convert
 int getPrecedence(char c) {
-	if (c == '*' || c == '/')
+	if (c == '*' || c == '/' || c == '%')
 		return 2;
 	if (c == '+' || c == '-')
 		return 1;
@@ -74,13 +74,15 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix=false) {
 		}
 		else {
 			// Neu la dau ngoac mo
-			if (token == '(')
+			if (token == '(') {
 				push(&s, '(');
+			}
+				
 			else {
 				// Neu la ngoac dong va data trong stack
 				if (token == ')' && !isEmpty(&s)) {
 					char c;
-					while (c = pop(&s)!='(' && !isEmpty(&s)) {
+					while ((c = pop(&s))!='(' && !isEmpty(&s)) {
 						postfix[j++] = c; 
 					}
 				}
@@ -96,7 +98,6 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix=false) {
 							postfix[j++] = pop(&s);
 						}
 					}
-					
 					push(&s, token);
 				}
 			}
@@ -104,7 +105,7 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix=false) {
 		i++;
 	}
 	
-	int x;
+	double x;
 	while (!isEmpty(&s))
 	{
 		x = pop(&s);
@@ -149,7 +150,7 @@ float evaluatePostfix(char postfix[]) {
 	Stack s;
 	init(&s);
 	char *p = &postfix[0];
-	float a, b, res;
+	double a, b, res;
 	
 	while(*p != '\0') {
 		while (*p == ' ') {
@@ -171,7 +172,7 @@ float evaluatePostfix(char postfix[]) {
 			// Xet la chu
 			else
 			{
-				printf("Can not evaluate!!");
+				printf("Khong tinh duoc!!");
 				return 0;
 			}
 		}
@@ -195,8 +196,11 @@ float evaluatePostfix(char postfix[]) {
 			case '/':
 				res = b / a;
 				break;
+			case '%':
+				res = (int)b % (int)a;
+				break;
 			default:
-				printf("\nInvalid Operator");
+				printf("\nLoi ky tu");
 				return 0;
 			}
 			push(&s, res);
@@ -213,7 +217,7 @@ float evaluatePrefix(char *prefix)
 {
 	struct Stack s;
 	char *p;
-	int a, b, res;
+	double a, b, res;
 	int prefixLength = strlen(prefix);
 	s.top = -1; 
 	p = &prefix[prefixLength-1];
@@ -245,7 +249,7 @@ float evaluatePrefix(char *prefix)
 			// Xet la chu
 			else
 			{
-				printf("Can not evaluate!");
+				printf("Khong the tinh duoc!");
 				return 0;
 			}
 		}
@@ -267,10 +271,13 @@ float evaluatePrefix(char *prefix)
 				res = a * b;
 				break;
 			case '/':
-				res = a / b;
+				res = (double) a / b;
+				break;
+			case '%':
+				res = (int) a % (int)b;
 				break;
 			default:
-				printf("\nInvalid Operator");
+				printf("\nLoi ky tu");
 				return 0;
 			}
 			push(&s, res);
@@ -292,8 +299,8 @@ int main() {
 //	const char* word = "2-3*5+4"; 
 //	const char* word = "2+3*5+4";
 //	const char* word = "5*7-4*2*3";
-//	const char* word = "4+3*2-5";
-//	const char* word = "5+3*2-4+5"; 
+//	const char* word = "4%3+3*2%5-5";
+//	const char* word = "((5+3)+31)/2+2"; 
 
 //	const char* word = "A+B*C-D+E";
 	const char* word = "23+3*6-19*2+6*2";
@@ -303,10 +310,10 @@ int main() {
 
 	infix2Prefix(A, B);
 	printf("Chuoi Prefix: %s\n", B);
-	printf("Equals is %f\n", evaluatePrefix(&B[0]));
+	printf("Ket qua la %f\n", evaluatePrefix(&B[0]));
 	
 	strncpy(C,word, MAX);
 	infix2Postfix(C, D);
 	printf("Postfix: %s\n", D);
-	printf("Equals is %f\n", evaluatePostfix(&D[0]));
+	printf("Ket qua la %f\n", evaluatePostfix(&D[0]));
 }
