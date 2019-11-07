@@ -1,0 +1,62 @@
+Đề tài 14: Định giá biểu thức số học
+Mô tả: Viết chương trình định giá biểu thức số học sử dụng cấu trúc dữ liệu ngăn xếp.
+Yêu cầu:
+a. Chuyển biểu thức trung tố thành dạng hậu tố hoặc tiền tố (không chứa dấu
+ngoặc).
+b. Định giá biểu thức trong hai trường hợp:
+1) Biểu thức dạng tiền tố.
+2) Biểu thức dạng hậu tố.
+
+
+I. Đọc hiểu đề:
+1. Phân tích thuật ngữ:
+- Biểu thức số học:
+- cấu trúc dữ liệu ngăn xếp (stack):
+- Biểu thức trung tố (Infix): biểu thức đại số sử dụng hằng ngày được biểu diễn dưới dạng này
+- Biểu thức dạng hậu tố(Postfix) hoặc tiền tố (Prefix)(không chứa dấu ngoặc): 
+để máy tính tính được giá trị của một biểu thức
+
+Infix					Postfix
+
+A / B – C * D			A B / C D * +
+
+A / ( B – C * D)		A B C D * - /
+
+A / (B – C) * D			A B C - / D *
+- Định giá biểu thức
+2. Mục tiêu:
+- Ngôn ngữ: C/C++
+- Cấu trúc dữ liệu: ngăn xếp
+- CHUYỂN trung tố -> hậu tố hoặc tiền tố
+- ĐỊNH GIÁ biểu thức tiền tố và hậu tố
+II. Lựa chọn phương pháp
+
+Thuật toán
+Chuyển từ trung tố sang hậu tố
+1. Khởi tạo Stack rỗng.
+
+2. Khởi tạo 2 chuỗi x và token; i, j lần lượt là index của Infix và Postfix.
+
+3. Duyệt vòng lặp for từ i = 1 cho đến cuối chuỗi Infix:
+
+Nếu Infix[i] là toán hạng thì đưa vào Postfix.
+Nếu Infix[i] là toán tử thì Push vào ngăn xếp S.
+Nếu Infix[i] là “)” thì Pop vào ngăn xếp S (lấy giá trị trên đỉnh của S) sau đó đưa vào Postfix.
+Output: Postfix là biểu thức hậu tố.
+
+Tính giá trị biểu thức hậu tố
+Duyệt biểu thức dạng chuỗi từ trái sang phải:
+
+Dùng hàm isdigit or alphabet để kiểm tra:
+
++ Nếu là toán hạng thì dùng Push() đưa vào ngăn xếp S.
+
++ Nếu là toán tử thì Pop() 2 toán hạng trong ngăn xếp S ra, sau đó tính toán giá trị của chúng dựa vào toán tử này, sau đó Push() lại vào S.
+
++ Thực hiện cho đến khi gặp kí tự "\0" kết thúc chuỗi.
+
++ Kết quả của biểu thức chính là phần tử còn lại cuối cùng trong ngăn xếp S.
+
+
+https://www.stdio.vn/articles/ung-dung-stack-bieu-thuc-hau-to-postfix-471
+
