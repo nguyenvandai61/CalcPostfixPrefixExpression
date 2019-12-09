@@ -1,12 +1,15 @@
 #pragma once
 #include <stdio.h>
 
+
 #define MAX_STACK 100
 #define MAX 100
+
+template<typename T>
 class Stack
 {
 private:
-	double* data;
+	T* data;
 	int top;
 
 public:
@@ -15,9 +18,9 @@ public:
 	void init();
 	void setTop(int n);
 	int isEmpty();
-	double topValue();
-	void push(double data);
-	double pop();
+	T topValue();
+	void push(T data);
+	T pop();
 };
 
 

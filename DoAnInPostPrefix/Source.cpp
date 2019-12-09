@@ -1,9 +1,18 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 #include <math.h>
-#include "Stack.h"
+#include "Stack.cpp"
 
+#define KEY 101
+const char* soperators[] = { "sqrt", "sin" };
+
+enum soperator {
+	SQRT = KEY,
+	SIN,
+	COS
+};
 ///////////////////////////////////////
 // Functions
 bool isOperator(char c) {
@@ -14,6 +23,36 @@ bool isOperator(char c) {
 			return true;
 		}
 	}
+	
+	return false;
+}
+void copyString(char* des, char* src) {
+	for (int i = 0; i < strlen(src); i++) {
+		des[i] = src[i];
+	}
+}
+
+const char* symbol2soperator(int n) {
+	if (n == SQRT) return soperators[SQRT-KEY];
+	if (n == SIN) return soperators[SIN - KEY];
+	return "";
+}
+
+bool isOperator(const char* s) {
+	int length = sizeof(soperators) / sizeof(soperators[0]);
+
+	for (int i = 0; i < length; i++) {
+		if (strcmp(soperators[i], s) == 0) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool isSOperator(char c) {
+	if (c == SQRT || c == SIN)
+		return true;
 	return false;
 }
 int getPrecedence(char c) {
@@ -26,10 +65,29 @@ int getPrecedence(char c) {
 	return 0;
 }
 
+int getPrecedence(const char* s) {
+	if (s == "sqrt")
+		return 3;
+}
+
+void passOperator2Stack(Stack<char>*& s, char*& postfix, int& j, char token, bool isPrefix = false) {
+	if (!isPrefix) {
+		while (!s->isEmpty() && getPrecedence(token) <= getPrecedence(s->topValue())) {
+			postfix[j++] = s->pop();
+		}
+	}
+	else {
+		while (!s->isEmpty() && getPrecedence(token) < getPrecedence(s->topValue())) {
+			postfix[j++] = s->pop();
+		}
+	}
+	s->push(token);
+}
+
 ///////////////////////////////////////
 // Convert
 void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
-	Stack* s = new Stack();
+	Stack<char>* s = new Stack<char>();
 	s->init();
 	// Duyet tat ca cac ky tu trong infix
 	int i = 0;
@@ -38,11 +96,34 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 		int token = infix[i];
 		// Neu la alpha hoac num
 		if (isalnum(token)) {
-			postfix[j++] = token;
-			// Tach cac so voi nhau bang ' '
-			if (isOperator(infix[i + 1]) && isdigit(infix[i])) {
-				postfix[j++] = ' ';
+			if (isalpha(token)) {
+				// Truong hop alpha toan tu
+				int k = i;
+				char txt[8]="";
+				while (isalpha(infix[k])) {
+					txt[k-i]= infix[k];
+					k++;
+				}
+				
+
+				if (isOperator(txt)) {
+					// Dua phep tinh SQRT vao stack
+					token = (char) SQRT;
+					passOperator2Stack(s, postfix, j, token, isPrefix);
+				}
+				i = k--;
+				/*postfix[j++] = token;*/
 			}
+			else {
+				
+				postfix[j++] = token;
+				// Tach cac so voi nhau bang ' '
+				if (isOperator(infix[i + 1]) && isdigit(infix[i])) {
+					postfix[j++] = ' ';
+				}
+
+			}
+			
 		}
 		else {
 			// Neu la dau .
@@ -59,24 +140,14 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 				// Neu la ngoac dong va data trong stack
 				if (token == ')' && !s->isEmpty()) {
 					char c;
-					while ((c = s->pop()) != '(' && s->isEmpty()) {
+					while ((c = s->pop()) != '(' && !s->isEmpty()) {
 						postfix[j++] = c;
 					}
 				}
 				else {
 					// Neu la phep tinh
 						// Neu la phep tinh co muc uu tien cao hoac bang
-					if (!isPrefix) {
-						while (getPrecedence(token) <= getPrecedence(s->topValue())) {
-							postfix[j++] = s->pop();
-						}
-					}
-					else {
-						while (getPrecedence(token) < getPrecedence(s->topValue())) {
-							postfix[j++] = s->pop();
-						}
-					}
-					s->push(token);
+					passOperator2Stack(s, postfix, j, token, isPrefix);
 				}
 			}
 		}
@@ -124,8 +195,8 @@ void infix2Prefix(char infix[], char prefix[]) {
 }
 //////////////////////////////
 // Evaluate
-float evaluatePostfix(char* postfix) {
-	Stack* s = new Stack();
+double evaluatePostfix(char* postfix) {
+	Stack<double>* s = new Stack<double>();
 	s->init();
 	char* p = &postfix[0];
 	double a, b, res;
@@ -141,15 +212,16 @@ float evaluatePostfix(char* postfix) {
 				double num = 0;
 				while (isdigit(*p)) {
 					num *= 10;
-					num += *p - '0';
+					num += (double)*p - '0';
 					p++;
 				}
+				// Xet phan thap phan
 				if (*p == '.') {
 					p++;
 					int n = 0;
 					while (isdigit(*p)) {
 						n++;
-						num += (*p - '0')*pow(10, -n);
+						num += ((double)*p - '0')*pow(10, -n);
 						p++;
 					}
 				}
@@ -159,8 +231,22 @@ float evaluatePostfix(char* postfix) {
 			// Xet la chu
 			else
 			{
-				printf("Khong tinh duoc!!");
-				return 0;
+				int i = 0;
+				char txtOperator[10];
+				txtOperator[i++] = *p;
+				while (isalpha(*(p + 1))) {
+					p++;
+					txtOperator[i++] = *p;
+				}
+
+				txtOperator[i] = '\0';
+				if (isOperator(txtOperator)) {
+					
+				} else {
+					printf("Khong tinh duoc!!");
+					return 0;
+				}
+			
 			}
 		}
 		// xet la toan tu
@@ -199,16 +285,14 @@ float evaluatePostfix(char* postfix) {
 	}
 	res = s->pop();
 	return res;
-
 }
 
-float evaluatePrefix(char* prefix)
+double evaluatePrefix(char* prefix)
 {
-	Stack* s = new Stack();
+	Stack<double>* s = new Stack<double>();
 	char* p;
 	double a, b, res;
 	int prefixLength = strlen(prefix);
-	s->setTop(-1);
 	p = &prefix[prefixLength - 1];
 
 	while (p >= &prefix[0])
@@ -244,7 +328,7 @@ float evaluatePrefix(char* prefix)
 				if (isReal) {
 					int n = nAfterDot;
 					while (isdigit(*p)) {
-						num += (*p - '0') * pow(10, -n);
+						num += ((double)*p - '0') * pow(10, -n);
 						n--;
 						p--;
 					}
@@ -253,7 +337,7 @@ float evaluatePrefix(char* prefix)
 
 				while (isdigit(*p)) {
 					product = pow(10, i++);
-					num += product * (*p - '0');
+					num += product * ((double)*p - '0');
 					p--;
 				}
 				
@@ -310,29 +394,27 @@ float evaluatePrefix(char* prefix)
 ////////////////
 int main() {
 	char A[MAX], B[MAX], C[MAX], D[MAX];
-	printf("Infix : ");
-	//	const char* word = "2+6*9-7+5";
 
-	//	const char* word = "4+5*3-2";
-	//	const char* word = "2-3*5+4"; 
-	//	const char* word = "2+3*5+4";
-	//	const char* word = "5*7-4*2*3";
-	//	const char* word = "4%3+3*2%5-5";
-	//	const char* word = "((5+3)+31)/2+2"; 
+	FILE* file;
+	char problem[MAX];
 
-	//	const char* word = "A+B*C-D+E";
-	//const char* word = "23+3*6-19*2+6^2";
-	const char* word = "23.3+4.7*2";
+	file = fopen("Problems.txt", "r");
+	while (!feof(file)) {
+		fscanf(file, "%s", problem);
+		printf("Bai toan: %s\n", problem);
+		strcpy(A, problem);
+		strcpy(C, problem);
 
-	printf("%s\n", word);
-	// Chuyen const char ve char array
-	strncpy_s(A, word, MAX);
-	infix2Prefix(A, B);
-	printf("Chuoi Prefix: %s\n", B);
-	printf("Ket qua la %f\n", evaluatePrefix(&B[0]));
+		infix2Prefix(A, B);
+		printf("Chuoi Prefix: %s\n", B);
+		printf("Ket qua la %lf\n", evaluatePrefix(&B[0]));
 
-	strncpy_s(C, word, MAX);
-	infix2Postfix(C, D);
-	printf("Postfix: %s\n", D);
-	printf("Ket qua la %f\n", evaluatePostfix(&D[0]));
+		infix2Postfix(C, D);
+		printf("Postfix: %s\n", D);
+		printf("Ket qua la %lf\n", evaluatePostfix(&D[0]));
+		printf("\n\n\n");
+	}
+	
+	fclose(file);
 }
+

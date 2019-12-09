@@ -1,35 +1,40 @@
 #include "Stack.h"
 
 
-
-Stack::Stack() {
+template<typename T>
+Stack<T>::Stack() {
 	top = -1;
-	data = new double[MAX_STACK];
+	data = new T[MAX_STACK];
 }
-inline Stack::~Stack()
+
+template<typename T>
+Stack<T>::~Stack()
 {
 	delete data;
-}
-;
+};
 
-
-void Stack::init() {
+template<typename T>
+void Stack<T>::init() {
 	top = -1;
 }
 
-void Stack::setTop(int n) {
+template<typename T>
+void Stack<T>::setTop(int n) {
 	top = n;
 }
 
-int Stack::isEmpty() {
+template<typename T>
+int Stack<T>::isEmpty() {
 	return (top == -1) ? 1 : 0;
 }
 
-double Stack::topValue() {
+template<typename T>
+T Stack<T>::topValue() {
 	return data[top];
 }
 
-void Stack::push(double n) {
+template<typename T>
+void Stack<T>::push(T n) {
 	if (top == MAX_STACK - 1) {
 		printf("Stack is full");
 		return;
@@ -39,7 +44,8 @@ void Stack::push(double n) {
 	data[top] = n;
 }
 
-double Stack::pop() {
+template<typename T>
+T Stack<T>::pop() {
 	double ret = -1;
 	if (top == -1) {
 		printf("Stack is empty");

@@ -1,11 +1,20 @@
 ﻿  Source.cpp
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(62,24): warning C4244: '=': conversion from 'double' to 'char', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(70,63): warning C4244: 'argument': conversion from 'double' to 'char', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(71,29): warning C4244: '=': conversion from 'double' to 'char', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(75,62): warning C4244: 'argument': conversion from 'double' to 'char', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(76,29): warning C4244: '=': conversion from 'double' to 'char', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(90,18): warning C4244: '=': conversion from 'double' to 'char', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(201,9): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(255,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(305,9): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  DoAnInPostPrefix.vcxproj -> C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\Debug\DoAnInPostPrefix.exe
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(109,18): warning C4244: '=': conversion from 'double' to 'char', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(235,9): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(288,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(338,9): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(345,15): warning C4101: 'B': unreferenced local variable
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(345,31): warning C4101: 'D': unreferenced local variable
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(345,7): warning C4101: 'A': unreferenced local variable
+Source.obj : error LNK2019: unresolved external symbol "public: __thiscall Stack<char>::Stack<char>(void)" (??0?$Stack@D@@QAE@XZ) referenced in function "void __cdecl infix2Postfix(char * const,char * const,bool)" (?infix2Postfix@@YAXQAD0_N@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: void __thiscall Stack<char>::init(void)" (?init@?$Stack@D@@QAEXXZ) referenced in function "void __cdecl infix2Postfix(char * const,char * const,bool)" (?infix2Postfix@@YAXQAD0_N@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: int __thiscall Stack<char>::isEmpty(void)" (?isEmpty@?$Stack@D@@QAEHXZ) referenced in function "void __cdecl infix2Postfix(char * const,char * const,bool)" (?infix2Postfix@@YAXQAD0_N@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: char __thiscall Stack<char>::topValue(void)" (?topValue@?$Stack@D@@QAEDXZ) referenced in function "void __cdecl infix2Postfix(char * const,char * const,bool)" (?infix2Postfix@@YAXQAD0_N@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: void __thiscall Stack<char>::push(char)" (?push@?$Stack@D@@QAEXD@Z) referenced in function "void __cdecl infix2Postfix(char * const,char * const,bool)" (?infix2Postfix@@YAXQAD0_N@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: char __thiscall Stack<char>::pop(void)" (?pop@?$Stack@D@@QAEDXZ) referenced in function "void __cdecl infix2Postfix(char * const,char * const,bool)" (?infix2Postfix@@YAXQAD0_N@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: __thiscall Stack<double>::Stack<double>(void)" (??0?$Stack@N@@QAE@XZ) referenced in function "float __cdecl evaluatePostfix(char *)" (?evaluatePostfix@@YAMPAD@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: void __thiscall Stack<double>::init(void)" (?init@?$Stack@N@@QAEXXZ) referenced in function "float __cdecl evaluatePostfix(char *)" (?evaluatePostfix@@YAMPAD@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: void __thiscall Stack<double>::setTop(int)" (?setTop@?$Stack@N@@QAEXH@Z) referenced in function "float __cdecl evaluatePrefix(char *)" (?evaluatePrefix@@YAMPAD@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: void __thiscall Stack<double>::push(double)" (?push@?$Stack@N@@QAEXN@Z) referenced in function "float __cdecl evaluatePostfix(char *)" (?evaluatePostfix@@YAMPAD@Z)
+Source.obj : error LNK2019: unresolved external symbol "public: double __thiscall Stack<double>::pop(void)" (?pop@?$Stack@N@@QAENXZ) referenced in function "float __cdecl evaluatePostfix(char *)" (?evaluatePostfix@@YAMPAD@Z)
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\Debug\DoAnInPostPrefix.exe : fatal error LNK1120: 11 unresolved externals
