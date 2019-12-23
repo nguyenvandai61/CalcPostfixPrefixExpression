@@ -15,6 +15,7 @@ enum soperator {
 };
 ///////////////////////////////////////
 // Functions
+/////////////////////////////////
 bool isOperator(char c) {
 	const char* operators = "+-*/%^\0";
 	int length = strlen(operators);
@@ -28,16 +29,12 @@ bool isOperator(char c) {
 }
 
 const char* token2text(char token) {
-	if (token == SQRT) return soperators[SQRT-KEY];
-	if (token == SIN) return soperators[SIN-KEY];
-	if (token == COS) return soperators[COS - KEY];
-	return "";
+	return soperators[token - KEY];
 }
 
 char text2token(const char* text) {
-	if (strcmp(text, soperators[0]) == 0) return KEY;
-	if (strcmp(text, soperators[1]) == 0) return KEY+1;
-	if (strcmp(text, soperators[2]) == 0) return KEY + 2;
+	for (int i = 0; i < NSOP; i++)
+		if (strcmp(text, soperators[i]) == 0) return KEY+i;
 	return NULL;
 }
 
@@ -90,16 +87,16 @@ int getPrecedence(char c) {
 }
 
 
-void passOperator2Stack(Stack<char>*& s, char*& postfix, int& j, char token, bool isPrefix = false) {
-	
+void passOperator2Stack(Stack<char>* s, char*& postfix, int& j, char token, bool isPrefix = false) {
 	if (!isPrefix) {
 		while (!s->isEmpty() && getPrecedence(token) <= getPrecedence(s->topValue())) {
-			if (!isSOperator(token)) {
+			if (!isSOperator(s->topValue())) {
 				postfix[j++] = s->pop();
 			}
 			else {
 				char c = s->pop();
-				const char* strtxt = token2text(token);
+
+				const char* strtxt = token2text(c);
 				char str[8];
 				strcpy(str, strtxt);
 				if (isPrefix)
@@ -121,7 +118,6 @@ void passOperator2Stack(Stack<char>*& s, char*& postfix, int& j, char token, boo
 				char c = s->pop();
 				const char* strtxt = token2text(c);
 
-				
 				int n = strlen(strtxt);
 				for (int k = n - 1; k >= 0; k--) {
 					postfix[j++] = strtxt[k];
@@ -134,9 +130,9 @@ void passOperator2Stack(Stack<char>*& s, char*& postfix, int& j, char token, boo
 
 ///////////////////////////////////////
 // Convert
+///////////////////////////////////
 void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 	Stack<char>* s = new Stack<char>();
-	s->init();
 	// Duyet tat ca cac ky tu trong infix
 	int i = 0;
 	int j = 0;
@@ -159,6 +155,7 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 
 				if (isSOperator(txt)) {
 					// Dua phep tinh SQRT vao stack
+					
 					token = text2token(txt);
 					passOperator2Stack(s, postfix, j, token, isPrefix);
 				}
@@ -198,6 +195,7 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 							const char* strtxt = token2text(c);
 							char str[8];
 							strcpy(str, strtxt);
+
 							for (int k = 0; k < strlen(str); k++) {
 								postfix[j++] = str[k];
 							}
@@ -267,7 +265,6 @@ void infix2Prefix(char infix[], char prefix[]) {
 // Evaluate
 double evaluatePostfix(char* postfix) {
 	Stack<double>* s = new Stack<double>();
-	s->init();
 	char* p = &postfix[0];
 	double a, b, res;
 
@@ -375,7 +372,7 @@ double evaluatePrefix(char* prefix)
 	{
 
 		// Xet truong hop dau " "
-		while (*p == ' ' || *p == '\t')
+		while (*p == ' ')
 		{
 			p--;
 		}
@@ -511,7 +508,7 @@ int main() {
 		infix2Postfix(C, D);
 		printf("Postfix: %s\n", D);
 		printf("Ket qua la %lf\n", evaluatePostfix(D));
-		printf("\n\n\n");
+		printf("\n----------------------------\n");
 	}
 	
 	fclose(file);

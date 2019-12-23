@@ -1,12 +1,12 @@
 ﻿  Source.cpp
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(20,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(46,21): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(56,21): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(125,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(239,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(259,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(371,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(415,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(21,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(43,21): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(53,21): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(121,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(237,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(257,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(368,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(412,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Stack.cpp(56,9): warning C4244: 'return': conversion from 'double' to 'T', possible loss of data
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Stack.cpp(56,9): warning C4244:         with
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Stack.cpp(56,9): warning C4244:         [
@@ -17,12 +17,12 @@ C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Stack.cpp(48):
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Stack.cpp(48): message :         [
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Stack.cpp(48): message :             T=char
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Stack.cpp(48): message :         ]
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(98): message : see reference to function template instantiation 'T Stack<T>::pop(void)' being compiled
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(98): message :         with
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(98): message :         [
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(98): message :             T=char
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(98): message :         ]
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(96): message : see reference to class template instantiation 'Stack<char>' being compiled
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(51): warning C4172: returning address of local variable or temporary: newstr
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(61): warning C4172: returning address of local variable or temporary: newstr
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(94): message : see reference to function template instantiation 'T Stack<T>::pop(void)' being compiled
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(94): message :         with
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(94): message :         [
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(94): message :             T=char
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(94): message :         ]
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(92): message : see reference to class template instantiation 'Stack<char>' being compiled
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(48): warning C4172: returning address of local variable or temporary: newstr
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(58): warning C4172: returning address of local variable or temporary: newstr
   DoAnInPostPrefix.vcxproj -> C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\x64\Debug\DoAnInPostPrefix.exe
