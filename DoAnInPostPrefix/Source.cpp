@@ -87,7 +87,7 @@ int getPrecedence(char c) {
 }
 
 
-void passOperator2Stack(Stack<char>* s, char*& postfix, int& j, char token, bool isPrefix = false) {
+void pushOperator2Stack(Stack<char>* s, char*& postfix, int& j, char token, bool isPrefix = false) {
 	if (!isPrefix) {
 		while (!s->isEmpty() && getPrecedence(token) <= getPrecedence(s->topValue())) {
 			if (!isSOperator(s->topValue())) {
@@ -99,9 +99,6 @@ void passOperator2Stack(Stack<char>* s, char*& postfix, int& j, char token, bool
 				const char* strtxt = token2text(c);
 				char str[8];
 				strcpy(str, strtxt);
-				if (isPrefix)
-					strcpy(str,revertStr(str));
-				
 				for (int k = 0; k < strlen(str); k++) {
 					postfix[j++] = str[k];
 				}
@@ -141,7 +138,6 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 		// Neu la alpha hoac num
 		if (isalnum(token)) {
 			if (isalpha(token)) {
-				// Truong hop alpha toan tu
 				int k = i;
 				char txt[8]="";
 				while (isalpha(infix[k])) {
@@ -157,7 +153,11 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 					// Dua phep tinh SQRT vao stack
 					
 					token = text2token(txt);
-					passOperator2Stack(s, postfix, j, token, isPrefix);
+					pushOperator2Stack(s, postfix, j, token, isPrefix);
+				}
+				else {
+					throw "Khong phai SOP nen khong xu li duoc\n";
+					return;
 				}
 				i = k - 1;
 
@@ -165,7 +165,7 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 			else {
 				postfix[j++] = token;
 				// Tach cac so voi nhau bang ' '
-				if (isOperator(infix[i + 1]) && isdigit(infix[i])) {
+				if (isOperator(infix[i + 1])) {
 					postfix[j++] = ' ';
 				}
 			}
@@ -205,7 +205,7 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 				else {
 					// Neu la phep tinh
 						// Neu la phep tinh co muc uu tien cao hoac bang
-					passOperator2Stack(s, postfix, j, token, isPrefix);
+					pushOperator2Stack(s, postfix, j, token, isPrefix);
 				}
 			}
 		}
@@ -500,14 +500,18 @@ int main() {
 		printf("Bai toan: %s\n", problem);
 		strcpy(A, problem);
 		strcpy(C, problem);
+		try {
+			infix2Prefix(A, B);
+			printf("Chuoi Prefix: %s\n", B);
+			printf("Ket qua la %lf\n", evaluatePrefix(B));
 
-		infix2Prefix(A, B);
-		printf("Chuoi Prefix: %s\n", B);
-		printf("Ket qua la %lf\n", evaluatePrefix(B));
-
-		infix2Postfix(C, D);
-		printf("Postfix: %s\n", D);
-		printf("Ket qua la %lf\n", evaluatePostfix(D));
+			infix2Postfix(C, D);
+			printf("Postfix: %s\n", D);
+			printf("Ket qua la %lf\n", evaluatePostfix(D));
+		}
+		catch (const char* msg) {
+			printf("%s", msg);
+		}
 		printf("\n----------------------------\n");
 	}
 	

@@ -11,7 +11,7 @@
 sqrt(6)
 4+sqrt(3*5)
 sin(3)
-sqrt(4.2)+27*9
+ssqrt(4.2)+27*9
 27*9+sqrt(4.2)
 cos(30)
 cos(0)
