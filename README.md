@@ -19,4 +19,4 @@ Visual Studio 2019
 **** 
 ## Program structures
 #### Main Program
-![alt](MainProgramDgram.png)
+![alt](MainProgram.png)
