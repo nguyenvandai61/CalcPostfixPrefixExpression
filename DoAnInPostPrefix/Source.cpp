@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include "Stack.cpp"
-#define NSOP 3
 #define KEY 101
-const char* soperators[] = { "sqrt", "sin", "cos" };
+const char* soperators[] = { "sqrt", "sin", "cos", "tan" };
 
 enum soperator {
 	SQRT = KEY,
 	SIN,
-	COS
+	COS,
+	TAN,
 };
 ///////////////////////////////////////
 // Functions
@@ -33,7 +33,7 @@ const char* token2text(char token) {
 }
 
 char text2token(const char* text) {
-	for (int i = 0; i < NSOP; i++)
+	for (int i = 0; i < sizeof(soperators)/sizeof(*soperators); i++)
 		if (strcmp(text, soperators[i]) == 0) return KEY+i;
 	return NULL;
 }
@@ -59,7 +59,7 @@ char* revertStr(const char* str) {
 }
 
 bool isSOperator(char* str) {
-	for (int i = 0; i < NSOP; i++) {
+	for (int i = 0; i < sizeof(soperators) / sizeof(*soperators); i++) {
 		if (strcmp(str, soperators[i]) == 0) {
 			return true;
 		}
@@ -68,10 +68,8 @@ bool isSOperator(char* str) {
 }
 
 bool isSOperator(char token) {
-	switch (token) {
-		case SQRT:
-		case COS:
-		case SIN: return true;
+	for (int i = 0; i <= sizeof(soperators) / sizeof(*soperators); i++) {
+		if (token == KEY + i) return true;
 	}
 	return false;
 }
@@ -86,6 +84,25 @@ int getPrecedence(char c) {
 	return 0;
 }
 
+double evaluateSOP(char* txtOperator, int value) {
+	double res;
+	if (isSOperator(txtOperator)) {
+		if (strcmp(txtOperator, "sqrt") == 0)
+			res = sqrt(value);
+		if (strcmp(txtOperator, "sin") == 0)
+			res = sin(value);
+		if (strcmp(txtOperator, "cos") == 0)
+			res = cos(value);
+		if (strcmp(txtOperator, "tan") == 0)
+			res = tan(value);
+		return(res);
+	}
+	else
+	{
+		throw ("Khong tinh duoc!!");
+		return 0;
+	}
+}
 
 void pushOperator2Stack(Stack<char>* s, char*& postfix, int& j, char token, bool isPrefix = false) {
 	if (!isPrefix) {
@@ -97,10 +114,9 @@ void pushOperator2Stack(Stack<char>* s, char*& postfix, int& j, char token, bool
 				char c = s->pop();
 
 				const char* strtxt = token2text(c);
-				char str[8];
-				strcpy(str, strtxt);
-				for (int k = 0; k < strlen(str); k++) {
-					postfix[j++] = str[k];
+				int n = strlen(strtxt);
+				for (int k = 0; k < n; k++) {
+					postfix[j++] = strtxt[k];
 				}
 			}
 		}
@@ -123,6 +139,23 @@ void pushOperator2Stack(Stack<char>* s, char*& postfix, int& j, char token, bool
 		}
 	}
 	s->push(token);
+}
+
+void appendPostfix(char postfix[], int& j, char token, bool isPrefix = false) {
+	if (!isSOperator(token)) {
+		postfix[j++] = token;
+	}
+	else {
+		const char* strtxt = token2text(token);
+		char str[8];
+		strcpy(str, strtxt);
+
+		if (isPrefix)
+			strcpy(str, revertStr(str));
+		for (int k = 0; k < strlen(str); k++) {
+			postfix[j++] = str[k];
+		}
+	}
 }
 
 ///////////////////////////////////////
@@ -180,26 +213,25 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 			// Neu la dau ngoac mo
 			if (token == '(') {
 				s->push('(');
+				// Xet truong hop so am cho Postfix
+				if (infix[i+1] == '-') {
+					postfix[j++] = '0';
+					postfix[j++] = ' ';
+				}
 			}
 
 			else {
 				// Neu la ngoac dong va data trong stack
 				if (token == ')' && !s->isEmpty()) {
+					// Xet truong hop so am cho Prefix
+					if (isPrefix && infix[i-1]=='-') {
+						postfix[j++] = '0';
+					}
+
 					char c;
 					while ((c = s->pop()) != '(' && !s->isEmpty())
 					{
-						if (!isSOperator(c)) {
-							postfix[j++] = c;
-						}
-						else {
-							const char* strtxt = token2text(c);
-							char str[8];
-							strcpy(str, strtxt);
-
-							for (int k = 0; k < strlen(str); k++) {
-								postfix[j++] = str[k];
-							}
-						}
+						appendPostfix(postfix, j, c, isPrefix);
 					}
 				}
 				else {
@@ -214,19 +246,7 @@ void infix2Postfix(char infix[], char postfix[], bool isPrefix = false) {
 	while (!s->isEmpty())
 	{
 		char token = s->pop();
-		if (!isSOperator(token)) {
-			postfix[j++] = token;
-		}
-		else {
-			const char* strtxt = token2text(token);
-			char str[8];
-			strcpy(str, strtxt);
-			if (isPrefix)
-				strcpy(str, revertStr(str));
-			for (int k = 0; k < strlen(str); k++) {
-				postfix[j++] = str[k];
-			}
-		}
+		appendPostfix(postfix, j, token, isPrefix);
 	}
 
 	// Ket thuc Postfix
@@ -307,19 +327,8 @@ double evaluatePostfix(char* postfix) {
 				}
 
 				txtOperator[i] = '\0';
-				if (isSOperator(txtOperator)) {
-					if (strcmp(txtOperator, "sqrt") == 0)
-						res = sqrt(s->pop());
-					if (strcmp(txtOperator, "sin") == 0)
-						res = sin(s->pop());
-					if (strcmp(txtOperator, "cos") == 0)
-						res = cos(s->pop());
-					s->push(res);
-				} else {
-					printf("Khong tinh duoc!!");
-					return 0;
-				}
-			
+				res = evaluateSOP(txtOperator, s->pop());
+				s->push(res);
 			}
 		}
 		// xet la toan tu
@@ -349,7 +358,7 @@ double evaluatePostfix(char* postfix) {
 				res = pow(b, a);
 				break;
 			default:
-				printf("\nLoi ky tu");
+				throw ("\nLoi ky tu");
 				return 0;
 			}
 			s->push(res);
@@ -430,21 +439,8 @@ double evaluatePrefix(char* prefix)
 
 				txtOperator[i] = '\0';
 				strcpy(txtOperator, revertStr(txtOperator));
-
-				if (isSOperator(txtOperator)) {
-					if (strcmp(txtOperator, "sqrt") == 0)
-						res = sqrt(s->pop());
-					if (strcmp(txtOperator, "sin") == 0)
-						res = sin(s->pop());
-					if (strcmp(txtOperator, "cos") == 0)
-						res = cos(s->pop());
-					s->push(res);
-				}
-				else 
-				{
-					printf("Khong tinh duoc!!");
-					return 0;
-				}
+				res = evaluateSOP(txtOperator, s->pop());
+				s->push(res);
 			}
 		}
 		// xet la toan tu
