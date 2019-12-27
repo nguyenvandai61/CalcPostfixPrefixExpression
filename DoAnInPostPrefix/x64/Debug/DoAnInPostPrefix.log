@@ -34,6 +34,6 @@ C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(111
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(111): message :             T=char
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(111): message :         ]
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(109): message : see reference to class template instantiation 'Stack<char>' being compiled
-C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(48): warning C4172: returning address of local variable or temporary: newstr
 C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(58): warning C4172: returning address of local variable or temporary: newstr
+C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\DoAnInPostPrefix\Source.cpp(48): warning C4172: returning address of local variable or temporary: newstr
   DoAnInPostPrefix.vcxproj -> C:\Users\DaiNguyen\source\repos\DoAnInPostPrefix\x64\Debug\DoAnInPostPrefix.exe

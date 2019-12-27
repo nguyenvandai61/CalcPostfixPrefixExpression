@@ -498,11 +498,11 @@ int main() {
 		strcpy(C, problem);
 		try {
 			infix2Prefix(A, B);
-			printf("Chuoi Prefix: %s\n", B);
+			printf("Chuoi tien to(Prefix): %s\n", B);
 			printf("Ket qua la %lf\n", evaluatePrefix(B));
 
 			infix2Postfix(C, D);
-			printf("Postfix: %s\n", D);
+			printf("Chuoi hau to(Postfix): %s\n", D);
 			printf("Ket qua la %lf\n", evaluatePostfix(D));
 		}
 		catch (const char* msg) {
