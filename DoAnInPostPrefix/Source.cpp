@@ -75,7 +75,7 @@ bool isSOperator(char token) {
 }
 
 int getPrecedence(char c) {
-	if (c == '^' || c == SQRT || c == SIN || c == COS) 
+	if (c == '^' || c == SQRT || c == SIN || c == COS || c == TAN) 
 		return 4;
 	if (c == '*' || c == '/' || c == '%')
 		return 3;
